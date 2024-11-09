@@ -1,0 +1,14 @@
+{
+  "extends": "@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",  // For ESM support
+    "moduleResolution": "node",
+    "outDir": "./dist",  // Ensure transpiled files go to dist/
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "strict": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

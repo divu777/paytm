@@ -3,7 +3,7 @@ import db from "@repo/db/client"
 
 const app=express();
 app.use(express.json());  
-console.log("hello")
+console.log("hello world")
 
 app.get("/helo",(req,res)=>{
     res.json("you did ti ")

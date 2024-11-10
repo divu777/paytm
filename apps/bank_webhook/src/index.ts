@@ -5,7 +5,7 @@ const app=express();
 app.use(express.json());  
 console.log("hello")
 
-app.get("",(req,res)=>{
+app.get("/",(req,res)=>{
     res.json("you did ti ")
 })
 

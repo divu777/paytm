@@ -1,4 +1,4 @@
-name: Build on PR
+name: Build on PR appproach
 on:
     pull_request:
         branches:

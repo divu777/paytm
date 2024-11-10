@@ -3,9 +3,9 @@ import db from "@repo/db/client"
 
 const app=express();
 app.use(express.json());  
+console.log("hello")
 
-
-app.get("",(req,res)=>{
+app.get("/helo",(req,res)=>{
     res.json("you did ti ")
 })
 

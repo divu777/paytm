@@ -4,8 +4,12 @@ import { BalanceCard } from "../../../components/BalanceCard";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../lib/auth";
 import { OnRampTransactions } from "../../../components/OnRampTransaction";
-import { OnRampStatus } from "@prisma/client";
-
+enum OnRampStatus {
+    Pending,
+    Success,
+    Failure
+  }
+  
 type Transaction={
     id: number;
     token: string;

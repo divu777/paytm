@@ -26,6 +26,10 @@ export const authOptions={
                 }
             },
             async authorize(credentials) {
+                if (!credentials) {
+                    console.error("No credentials provided");
+                    return null;
+                }
                 const result = userSchema.safeParse(credentials);
                 if (!result.success) {
                     console.error("Validation error:", result.error);
@@ -34,23 +38,26 @@ export const authOptions={
             
                 const existingUser = await db.user.findFirst({
                     where: {
-                        number: credentials!.phone,
+                        number: credentials.phone,
                     },
                 });
-            
-                if (existingUser) {
-                    const passwordValidation = await bcrypt.compare(credentials!.password, existingUser.password);
-                    if (passwordValidation) {
+
+                if(existingUser){
+                    const passwordValidation = await bcrypt.compare(credentials.password, existingUser.password);
+                    if (!passwordValidation) {
+                        console.error("Invalid password.");
+                        return null;
+                    }
+                    
+                    
                         return {
                             id: existingUser.id.toString(),
                             name: existingUser.name,
                             number: existingUser.number,
                         };
-                    }
-                    return null; // Invalid password
                 }
             
-                try {
+                      try {
                     const hashedPassword = await bcrypt.hash(credentials!.password, 10);
                     const user = await db.user.create({
                         data: {
@@ -83,6 +90,12 @@ export const authOptions={
     ],
     secret:process.env.JWT_SECRET || 'secret',
     callbacks:{
+        async jwt({ token, user }:any) {
+            if (user) {
+                token.sub = user.id.toString(); // Set the user ID
+            }
+            return token;
+        },
         async session({token,session}:any){
             session.user.id=token.sub
 

@@ -6,6 +6,15 @@ import { authOptions } from "../../lib/auth";
 import { P2Ptransaction } from "../../../components/p2pTransaction";
 
 
+export type Transaction = {
+    id: number;
+    amount: number;
+    timestamp: Date;
+    fromUserId: number;
+    toUserId: number;
+  };
+  
+
 
 async function getP2PTransaction() {
     const session = await getServerSession(authOptions);
@@ -18,12 +27,19 @@ async function getP2PTransaction() {
           timestamp: 'desc', // Order by creation date, descending (most recent first)
         },
     });
-    return txns.map(t => ({
+    // return txns.map(t => ({
+    //     time: t.timestamp,
+    //     amount: t.amount,
+    //     fromUser:t.fromUserId,
+    //     toUser:t.toUserId
+    // }))
+
+    return txns.map((t: Transaction) => ({
         time: t.timestamp,
         amount: t.amount,
-        fromUser:t.fromUserId,
-        toUser:t.toUserId
-    }))
+        fromUser: t.fromUserId,
+        toUser: t.toUserId,
+      }));
 }
 
 export default async function() {
